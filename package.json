@@ -1,0 +1,21 @@
+{
+  "name": "userstory",
+  "version": "1.0.0",
+  "description": "Sample app using MEAN stack",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chanaka De Silva",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.14.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "jsonwebtoken": "^5.0.5",
+    "morgan": "^1.6.1",
+    "mysql": "github:mysqljs/mysql",
+    "nodemailer": "1.10.0"
+  }
+}
