@@ -2,8 +2,8 @@ var email = require('../util/email');
 var config = require('../../config');
 var jsonwebtoken = require('jsonwebtoken');
 var secretKey = config.secretKey;
-
-// I have to use mysql connection here too.
+var db = require('../util/database');
+var pool = db.getPool();
 
 function createToken(user) {
     var token = jsonwebtoken.sign({
@@ -43,6 +43,19 @@ module.exports = function (app, express) {
 
     //    Login method query.
 
+    });
+
+    api.get('/income2/:limit/:offset', function (req, res) {
+
+        var limit = parseInt(req.params.limit);
+        var offset = parseInt(req.params.offset);
+        var query = 'select * from tblvideo limit ' + limit + ' offset ' + offset + ' ';
+
+        pool.getConnection(function (err, connection) {
+            connection.query(query, function (err, rows) {
+                res.json({type: "success", code: 200, data: rows});
+            });
+        });
     });
 
 

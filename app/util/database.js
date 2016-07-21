@@ -1,16 +1,14 @@
-
-// This is the centralized connection class.. Like singleton pattern.
-
 var mysql = require('mysql');
-
+var pool;
 module.exports = {
-    makeConnection: function () {
-
-      mysql.createPool({
-        host     : 'localhost',
-        user     : 'root',
-        password : 'chanaka',
-        database : 'shared_adult'
-      });
+    getPool: function () {
+        if (pool) return pool;
+        pool = mysql.createPool({
+            host: 'localhost',
+            user: 'root',
+            password: 'chanaka',
+            database: 'shared_adult'
+        });
+        return pool;
     }
 };
