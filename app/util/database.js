@@ -7,7 +7,7 @@ module.exports = {
             host: 'localhost',
             user: 'root',
             password: 'chanaka',
-            database: 'shared_adult'
+            database: 'stock_manager'
         });
         return pool;
     }
