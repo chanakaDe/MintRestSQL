@@ -89,15 +89,29 @@ module.exports = function (app, express) {
             username: req.body.username,
             email: req.body.email,
             level: req.body.level,
-            description: req.body.desc,
-            password: req.body.password
+            description: req.body.desc
         };
         pool.getConnection(function (err, connection) {
-            connection.query('UPDATE user SET username = ?,email = ?,level = ?,description = ?,password = ? WHERE id = ?',
+            connection.query('UPDATE user SET username = ?,email = ?,level = ?,description = ? WHERE id = ?',
                 [user.username, user.email, user.level, user.description, user.password, user.id], function (err, result) {
                     res.json({type: "success", code: 200, data: result});
                     connection.release();
                 });
+        });
+    });
+
+    api.get('/check_user/:username', function (req, res) {
+        var username = req.params.username;
+        var query = 'select * from user where username = ?';
+        pool.getConnection(function (err, connection) {
+            connection.query(query, [username], function (err, rows) {
+                if (rows == '') {
+                    res.json({type: "success", code: 200, data: true});
+                } else {
+                    res.json({type: "error", code: 403, data: false});
+                }
+                connection.release();
+            });
         });
     });
 
