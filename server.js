@@ -14,13 +14,18 @@ app.use(morgan('dev'));
 
 var api = require('./app/routes/api')(app, express);
 var report = require('./app/routes/report')(app, express);
+var user = require('./app/routes/user')(app, express);
+var supplier = require('./app/routes/supplier')(app, express);
+
 app.use('/api', api);
 app.use('/sys/report', report);
+app.use('/api/user_manage', user);
+app.use('/api/supplier_manage', supplier);
 
 app.listen(config.port, function (err) {
     if (err) {
         console.log(err);
     } else {
-        console.log("Listening on port 3000");
+        console.log("localhost:3000");
     }
 });

@@ -26,11 +26,11 @@ module.exports = function (app, express) {
         }
     });
 
-    api.get('/income/:limit/:offset', function (req, res) {
+    api.get('/supplier/:limit/:offset', function (req, res) {
 
         var limit = parseInt(req.params.limit);
         var offset = parseInt(req.params.offset);
-        var query = 'select * from income limit ' + limit + ' offset ' + offset + ' ';
+        var query = 'select * from supplier limit ' + limit + ' offset ' + offset + ' ';
         pool.getConnection(function (err, connection) {
             connection.query(query, function (err, rows) {
                 res.json({type: "success", code: 200, data: rows});
@@ -39,38 +39,56 @@ module.exports = function (app, express) {
         });
     });
 
-    api.post('/income', function (req, res) {
+    api.post('/supplier', function (req, res) {
 
-        var income = {
+        var supplier = {
             id: 0,
-            title: req.body.title,
-            description: req.body.description,
-            date: req.body.date,
-            amount: req.body.amount
+            name: req.body.name,
+            address: req.body.address,
+            telephone: req.body.telephone,
+            contact_person: req.body.contact_person,
+            fax: req.body.fax,
+            email: req.body.email,
+            remark: req.body.remark
         };
         pool.getConnection(function (err, connection) {
-            connection.query('INSERT INTO income SET ?', income, function (err, result) {
+            connection.query('INSERT INTO supplier SET ?', supplier, function (err, result) {
                 res.json({type: "success", code: 200, data: result});
                 connection.release();
             });
         });
     });
 
-    api.put('/income', function (req, res) {
+    api.put('/supplier', function (req, res) {
 
-        var income = {
+        var supplier = {
             id: req.body.id,
-            title: req.body.title,
-            description: req.body.description,
-            date: req.body.date,
-            amount: req.body.amount
+            name: req.body.name,
+            address: req.body.address,
+            telephone: req.body.telephone,
+            contact_person: req.body.contact_person,
+            fax: req.body.fax,
+            email: req.body.email,
+            remark: req.body.remark
         };
         pool.getConnection(function (err, connection) {
-            connection.query('UPDATE income SET title = ?,description = ?,date = ?,amount = ? WHERE id = ?',
-                [income.title, income.description, income.date, income.amount, income.id], function (err, result) {
+            connection.query('UPDATE supplier SET name = ?,address = ?,telephone = ?,contact_person = ?,fax = ?,email = ?,remark = ? WHERE id = ?',
+                [supplier.name, supplier.address, supplier.telephone, supplier.contact_person, supplier.fax, supplier.email, supplier.remark, supplier.id], function (err, result) {
                     res.json({type: "success", code: 200, data: result});
                     connection.release();
                 });
+        });
+    });
+
+    api.get('/supplier/:id', function (req, res) {
+
+        var id = parseInt(req.params.id);
+        var query = 'select * from supplier where id = ' + id + '';
+        pool.getConnection(function (err, connection) {
+            connection.query(query, function (err, rows) {
+                res.json({type: "success", code: 200, data: rows});
+                connection.release();
+            });
         });
     });
 
