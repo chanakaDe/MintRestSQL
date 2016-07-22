@@ -62,9 +62,9 @@ module.exports = function (app, express) {
         });
     });
 
-    api.put('/supplier', function (req, res) {
+    api.put('/item', function (req, res) {
 
-        var supplier = {
+        var item = {
             id: req.body.id,
             part_no: req.body.part_no,
             stamp_no: req.body.stamp_no,
@@ -78,18 +78,18 @@ module.exports = function (app, express) {
             cost_price: req.body.cost_price
         };
         pool.getConnection(function (err, connection) {
-            connection.query('UPDATE item SET name = ?,address = ?,telephone = ?,contact_person = ?,fax = ?,email = ?,remark = ? WHERE id = ?',
-                [supplier.name, supplier.address, supplier.telephone, supplier.contact_person, supplier.fax, supplier.email, supplier.remark, supplier.id], function (err, result) {
+            connection.query('UPDATE item SET part_no = ?,stamp_no = ?,description = ?,stock_in_hand = ?,reorder_level = ?,selling_price = ?,mesurment = ?,bin_card_no = ?,location = ? ,cost_price = ?  WHERE id = ?',
+                [item.part_no, item.stamp_no, item.description, item.stock_in_hand, item.reorder_level, item.selling_price, item.mesurment, item.bin_card_no, item.location, item.cost_price, item.id], function (err, result) {
                     res.json({type: "success", code: 200, data: result});
                     connection.release();
                 });
         });
     });
 
-    api.get('/supplier/:id', function (req, res) {
+    api.get('/item/:id', function (req, res) {
 
         var id = parseInt(req.params.id);
-        var query = 'select * from supplier where id = ' + id + '';
+        var query = 'select * from item where id = ' + id + '';
         pool.getConnection(function (err, connection) {
             connection.query(query, function (err, rows) {
                 res.json({type: "success", code: 200, data: rows});
