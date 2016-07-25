@@ -74,5 +74,62 @@ module.exports = function (app, express) {
         });
     });
 
+    api.get('/income_chart', function (req, res) {
+
+        var query = "SELECT 'January' AS mName, 1 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 1" +
+            " UNION" +
+            " SELECT 'February' AS mName, 2 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 2" +
+            " UNION" +
+            " SELECT 'March' AS mName, 3 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 3" +
+            " UNION" +
+            " SELECT 'April' AS mName, 4 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 4" +
+            " UNION" +
+            " SELECT 'May' AS mName, 5 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 5" +
+            " UNION" +
+            " SELECT 'June' AS mName, 6 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 6" +
+            " UNION" +
+            " SELECT 'July' AS mName, 7 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 7" +
+            " UNION" +
+            " SELECT 'August' AS mName, 8 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 8" +
+            " UNION" +
+            " SELECT 'September' AS mName, 9 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 9" +
+            " UNION" +
+            " SELECT 'October' AS mName, 10 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 10" +
+            " UNION" +
+            " SELECT 'November' AS mName, 11 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 11" +
+            " UNION" +
+            " SELECT 'December' AS mName, 12 AS mOrder, COALESCE(SUM(amount),0) AS total_num" +
+            " FROM income i" +
+            " WHERE month(i.date) = 12";
+        pool.getConnection(function (err, connection) {
+            connection.query(query, function (err, rows) {
+                res.json({type: "success", code: 200, data: rows});
+                connection.release();
+            });
+        });
+    });
+
     return api;
 };
